@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Meine Workouts</h2>
+
+<div class="row mb-4">
+  <div class="col-md-3">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Workouts gesamt</h5>
+        <p class="card-text">{{ total_workouts }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Gesamtdauer (min)</h5>
+        <p class="card-text">{{ total_duration }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-danger mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Kalorien gesamt</h5>
+        <p class="card-text">{{ total_calories }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-white bg-info mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Durchschnittsdauer (min)</h5>
+        <p class="card-text">{{ average_duration | round(2) }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.exercise.label }} {{ form.exercise(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.duration.label }} {{ form.duration(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        {{ form.calories.label }} {{ form.calories(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-success") }}
+</form>
+
+<hr>
+<ul class="list-group">
+{% for w in workouts %}
+    <li class="list-group-item">
+        <strong>{{ w.exercise }}</strong> – {{ w.duration }} Min – {{ w.calories or "?" }} kcal – {{ w.date.strftime('%Y-%m-%d') }}
+    </li>
+{% else %}
+    <li class="list-group-item">Keine Workouts vorhanden</li>
+{% endfor %}
+</ul>
+{% endblock %}
