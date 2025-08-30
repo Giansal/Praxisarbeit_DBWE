@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>Fitness Tracker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('routes.index') }}">Fitness Tracker</a>
+        <div>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('routes.workouts') }}" class="btn btn-primary btn-sm">Meine Workouts</a>
+                <a href="{{ url_for('routes.logout') }}" class="btn btn-danger btn-sm">Logout</a>
+            {% else %}
+                <a href="{{ url_for('routes.login') }}" class="btn btn-success btn-sm">Login</a>
+                <a href="{{ url_for('routes.register') }}" class="btn btn-warning btn-sm">Registrieren</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for m in messages %}
+                <div class="alert alert-info">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
